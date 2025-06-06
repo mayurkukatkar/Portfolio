@@ -11,6 +11,8 @@ services:
       python manage.py migrate
       # Collect static files
       python manage.py collectstatic --noinput
+      # Create superuser
+      python -c "import os; from django.contrib.auth import get_user_model; User = get_user_model(); User.objects.create_superuser(os.environ.get('DJANGO_SUPERUSER_USERNAME'), os.environ.get('DJANGO_SUPERUSER_EMAIL'), os.environ.get('DJANGO_SUPERUSER_PASSWORD')) if not User.objects.filter(username=os.environ.get('DJANGO_SUPERUSER_USERNAME')).exists() else None"
     startCommand: gunicorn portfolio_project.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
@@ -23,6 +25,12 @@ services:
         fromDatabase:
           name: portfolio-db
           property: connectionString
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false # Prompt for value on first deploy
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false # Prompt for value on first deploy
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false # Prompt for value on first deploy
 
 # PostgreSQL database
 databases:
