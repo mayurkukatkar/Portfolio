@@ -134,4 +134,4 @@ SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
 
 # CSRF Trusted Origins
-CSRF_TRUSTED_ORIGINS = ['https://mayurkukatkar.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://mayurkukatkar.onrender.com', 'http://mayurkukatkar.onrender.com']
