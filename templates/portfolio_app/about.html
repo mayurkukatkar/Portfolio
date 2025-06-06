@@ -1,0 +1,235 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}About Me{% endblock %}
+
+{% block content %}
+<!-- About Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="text-center mb-5">About Me</h1>
+            </div>
+        </div>
+        
+        <div class="row align-items-center mb-5">
+            <div class="col-md-5 mb-4 mb-md-0">
+                {% if profile and profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="img-fluid rounded shadow-lg">
+                {% else %}
+                <img src="/static/images/profile-placeholder.jpg" alt="Profile" class="img-fluid rounded shadow-lg">
+                {% endif %}
+            </div>
+            <div class="col-md-7">
+                {% if profile %}
+                <h2>{{ profile.name }}</h2>
+                <div class="mb-4">
+                    {{ profile.bio|safe }}
+                </div>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-envelope me-2 text-primary"></i> Email</h5>
+                        <p>{{ profile.contact_email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-phone me-2 text-primary"></i> Phone</h5>
+                        <p>{{ profile.phone }}</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-map-marker-alt me-2 text-primary"></i> Location</h5>
+                    <p>{{ profile.address }}</p>
+                </div>
+                {% if profile.resume %}
+                <a href="{{ profile.resume.url }}" class="btn btn-primary" download>
+                    <i class="fas fa-download me-2"></i> Download Resume
+                </a>
+                {% endif %}
+                {% else %}
+                <h2>About Me</h2>
+                <p class="mb-4">
+                    Welcome to my portfolio! I am a passionate developer with expertise in web development, 
+                    software engineering, and problem-solving. I love creating elegant solutions to complex problems.
+                </p>
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-envelope me-2 text-primary"></i> Email</h5>
+                        <p>contact@example.com</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-phone me-2 text-primary"></i> Phone</h5>
+                        <p>+1 (123) 456-7890</p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <h5><i class="fas fa-map-marker-alt me-2 text-primary"></i> Location</h5>
+                    <p>New York, NY</p>
+                </div>
+                <a href="#" class="btn btn-primary">
+                    <i class="fas fa-download me-2"></i> Download Resume
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Education & Experience Summary -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="text-center mb-5">Education & Experience</h2>
+                
+                <div class="row">
+                    <!-- Experience Summary -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="card-title"><i class="fas fa-briefcase text-primary me-2"></i> Work Experience</h3>
+                                <div class="timeline">
+                                    {% for exp in work_experience|slice:":2" %}
+                                    <div class="timeline-item">
+                                        <h5>{{ exp.title }}</h5>
+                                        <p class="text-muted">{{ exp.company }} | {{ exp.duration }}</p>
+                                        <div>{{ exp.description|safe|truncatewords_html:20 }}</div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="timeline-item">
+                                        <h5>Senior Developer</h5>
+                                        <p class="text-muted">Tech Company | 2020 - Present</p>
+                                        <p>Leading development of web applications and mentoring junior developers.</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <h5>Web Developer</h5>
+                                        <p class="text-muted">Digital Agency | 2018 - 2020</p>
+                                        <p>Developed responsive websites and web applications for clients.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="{% url 'portfolio:experience' %}" class="btn btn-outline-primary">View All Experience</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Education Summary -->
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h3 class="card-title"><i class="fas fa-graduation-cap text-primary me-2"></i> Education</h3>
+                                <div class="timeline">
+                                    {% for edu in education|slice:":2" %}
+                                    <div class="timeline-item">
+                                        <h5>{{ edu.title }}</h5>
+                                        <p class="text-muted">{{ edu.company }} | {{ edu.duration }}</p>
+                                        <div>{{ edu.description|safe|truncatewords_html:20 }}</div>
+                                    </div>
+                                    {% empty %}
+                                    <div class="timeline-item">
+                                        <h5>Master's in Computer Science</h5>
+                                        <p class="text-muted">University Name | 2016 - 2018</p>
+                                        <p>Specialized in software engineering and artificial intelligence.</p>
+                                    </div>
+                                    <div class="timeline-item">
+                                        <h5>Bachelor's in Computer Science</h5>
+                                        <p class="text-muted">University Name | 2012 - 2016</p>
+                                        <p>Graduated with honors, focused on web development and databases.</p>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="text-center mt-3">
+                                    <a href="{% url 'portfolio:experience' %}" class="btn btn-outline-primary">View All Education</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Summary -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <h2 class="text-center mb-5">My Skills</h2>
+                
+                <div class="row">
+                    {% for skill in skills|slice:":6" %}
+                    <div class="col-md-4 mb-4">
+                        <div class="skill-item p-3 bg-white rounded shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                {% if skill.icon %}
+                                <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon me-2" width="30">
+                                {% else %}
+                                <i class="fas fa-code skill-icon me-2"></i>
+                                {% endif %}
+                                <h5 class="mb-0">{{ skill.name }}</h5>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" 
+                                     aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-md-4 mb-4">
+                        <div class="skill-item p-3 bg-white rounded shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fab fa-html5 skill-icon me-2"></i>
+                                <h5 class="mb-0">HTML/CSS</h5>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 90%" 
+                                     aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="skill-item p-3 bg-white rounded shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fab fa-js skill-icon me-2"></i>
+                                <h5 class="mb-0">JavaScript</h5>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 85%" 
+                                     aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="skill-item p-3 bg-white rounded shadow-sm">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fab fa-python skill-icon me-2"></i>
+                                <h5 class="mb-0">Python</h5>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" style="width: 80%" 
+                                     aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="{% url 'portfolio:skills' %}" class="btn btn-primary">View All Skills</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Interested in working together?</h2>
+        <p class="lead mb-4">Let's discuss your project and see how I can help you achieve your goals.</p>
+        <a href="{% url 'portfolio:contact' %}" class="btn btn-light btn-lg">Contact Me</a>
+    </div>
+</section>
+{% endblock %}

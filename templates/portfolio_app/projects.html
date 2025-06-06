@@ -1,0 +1,128 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}Projects{% endblock %}
+
+{% block content %}
+<!-- Projects Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="mb-3">My Projects</h1>
+                <p class="lead">Here are some of the projects I've worked on. Click on any project to see more details.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Filter -->
+<section class="py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <div class="d-flex justify-content-center flex-wrap mb-4">
+                    <a href="{% url 'portfolio:projects' %}" class="btn {% if not tag %}btn-primary{% else %}btn-outline-primary{% endif %} m-1">All</a>
+                    {% for project_tag in tags %}
+                    <a href="{% url 'portfolio:projects' %}?tag={{ project_tag }}" class="btn {% if tag == project_tag %}btn-primary{% else %}btn-outline-primary{% endif %} m-1">{{ project_tag }}</a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects List -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm project-card">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top project-image" alt="{{ project.title }}">
+                    {% else %}
+                    <div class="card-img-top project-image-placeholder d-flex align-items-center justify-content-center bg-light">
+                        <i class="fas fa-code fa-3x text-muted"></i>
+                    </div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text text-muted">{{ project.short_description|truncatechars:100 }}</p>
+                        <div class="d-flex flex-wrap mb-3">
+                            {% for tag in project.tags.all %}
+                            <span class="badge bg-primary me-1 mb-1">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'portfolio:project_detail' project.slug %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                        {% if project.live_url %}
+                        <a href="{{ project.live_url }}" class="btn btn-outline-success btn-sm" target="_blank">Live Demo</a>
+                        {% endif %}
+                        {% if project.github_url %}
+                        <a href="{{ project.github_url }}" class="btn btn-outline-dark btn-sm" target="_blank">
+                            <i class="fab fa-github"></i> Code
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="py-5">
+                    <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+                    <h3>No Projects Found</h3>
+                    {% if tag %}
+                    <p>No projects found with the tag "{{ tag }}". Try another filter or view all projects.</p>
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-primary mt-3">View All Projects</a>
+                    {% else %}
+                    <p>No projects have been added yet. Check back soon!</p>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if projects.has_other_pages %}
+        <div class="row mt-4">
+            <div class="col-12">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                        {% if projects.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ projects.previous_page_number }}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&laquo;</span>
+                        </li>
+                        {% endif %}
+                        
+                        {% for i in projects.paginator.page_range %}
+                        <li class="page-item {% if projects.number == i %}active{% endif %}">
+                            <a class="page-link" href="?page={{ i }}{% if tag %}&tag={{ tag }}{% endif %}">{{ i }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if projects.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ projects.next_page_number }}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item disabled">
+                            <span class="page-link" aria-hidden="true">&raquo;</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

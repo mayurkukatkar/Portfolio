@@ -1,0 +1,238 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}Contact Me{% endblock %}
+
+{% block content %}
+<!-- Contact Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="mb-3">Get In Touch</h1>
+                <p class="lead">Have a question or want to work together? Feel free to reach out!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Contact Form -->
+            <div class="col-lg-7 mb-4 mb-lg-0">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4">Send a Message</h3>
+                        
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        
+                        <form method="post" action="{% url 'portfolio:contact' %}">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Your Name</label>
+                                    <input type="text" class="form-control" id="name" name="name" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email Address</label>
+                                    <input type="email" class="form-control" id="email" name="email" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" name="subject" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="privacy" name="privacy" required>
+                                <label class="form-check-label" for="privacy">I agree to the privacy policy and consent to having my data processed.</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Information -->
+            <div class="col-lg-5">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4">Contact Information</h3>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="contact-icon-wrapper">
+                                    <i class="fas fa-envelope contact-icon"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5>Email</h5>
+                                {% if profile and profile.contact_email %}
+                                <p class="mb-0"><a href="mailto:{{ profile.contact_email }}" class="text-decoration-none">{{ profile.contact_email }}</a></p>
+                                {% else %}
+                                <p class="mb-0"><a href="mailto:contact@example.com" class="text-decoration-none">contact@example.com</a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="contact-icon-wrapper">
+                                    <i class="fas fa-phone-alt contact-icon"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5>Phone</h5>
+                                {% if profile and profile.phone %}
+                                <p class="mb-0"><a href="tel:{{ profile.phone }}" class="text-decoration-none">{{ profile.phone }}</a></p>
+                                {% else %}
+                                <p class="mb-0"><a href="tel:+11234567890" class="text-decoration-none">+1 (123) 456-7890</a></p>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="d-flex mb-4">
+                            <div class="flex-shrink-0 me-3">
+                                <div class="contact-icon-wrapper">
+                                    <i class="fas fa-map-marker-alt contact-icon"></i>
+                                </div>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h5>Location</h5>
+                                {% if profile and profile.address %}
+                                <p class="mb-0">{{ profile.address }}</p>
+                                {% else %}
+                                <p class="mb-0">New York, NY, United States</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4">Connect With Me</h3>
+                        <div class="social-icons">
+                            {% if profile and profile.github %}
+                            <a href="{{ profile.github }}" class="social-icon" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            {% else %}
+                            <a href="https://github.com/" class="social-icon" target="_blank">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if profile and profile.linkedin %}
+                            <a href="{{ profile.linkedin }}" class="social-icon" target="_blank">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            {% else %}
+                            <a href="https://linkedin.com/" class="social-icon" target="_blank">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if profile and profile.twitter %}
+                            <a href="{{ profile.twitter }}" class="social-icon" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            {% else %}
+                            <a href="https://twitter.com/" class="social-icon" target="_blank">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            {% endif %}
+                            
+                            {% if profile and profile.instagram %}
+                            <a href="{{ profile.instagram }}" class="social-icon" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            {% else %}
+                            <a href="https://instagram.com/" class="social-icon" target="_blank">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Map Section (Optional) -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <!-- Replace with your own map embed code -->
+                        <div class="map-container">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d193595.15830869428!2d-74.11976397304903!3d40.69766374874431!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1645564956040!5m2!1sen!2s" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Styling -->
+<style>
+    .contact-icon-wrapper {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(13, 110, 253, 0.1);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .contact-icon {
+        color: #0d6efd;
+        font-size: 1.25rem;
+    }
+    
+    .social-icons {
+        display: flex;
+        gap: 15px;
+    }
+    
+    .social-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        background-color: #f8f9fa;
+        border-radius: 50%;
+        color: #0d6efd;
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        background-color: #0d6efd;
+        color: white;
+        transform: translateY(-3px);
+    }
+    
+    .map-container {
+        overflow: hidden;
+        border-radius: 0.25rem;
+    }
+</style>
+{% endblock %}

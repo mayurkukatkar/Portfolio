@@ -1,0 +1,174 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}Testimonials{% endblock %}
+
+{% block content %}
+<!-- Testimonials Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="mb-3">Client Testimonials</h1>
+                <p class="lead">What people are saying about working with me.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Grid -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            {% for testimonial in testimonials %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm testimonial-card">
+                    <div class="card-body">
+                        <div class="testimonial-quote">
+                            <i class="fas fa-quote-left fa-2x text-primary opacity-25"></i>
+                        </div>
+                        <div class="testimonial-content mb-4">
+                            <p class="mb-0">{{ testimonial.content }}</p>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            {% if testimonial.image %}
+                            <div class="flex-shrink-0 me-3">
+                                <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="rounded-circle" width="60" height="60" style="object-fit: cover;">
+                            </div>
+                            {% endif %}
+                            <div class="flex-grow-1">
+                                <h5 class="mb-1">{{ testimonial.name }}</h5>
+                                <p class="text-muted mb-0">{{ testimonial.position }}, {{ testimonial.company }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 text-center">
+                        <div class="testimonial-rating">
+                            {% for i in "12345"|make_list %}
+                            {% if forloop.counter <= testimonial.rating %}
+                            <i class="fas fa-star text-warning"></i>
+                            {% else %}
+                            <i class="far fa-star text-warning"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="py-5">
+                    <i class="fas fa-comments fa-4x text-muted mb-3"></i>
+                    <h3>No Testimonials Yet</h3>
+                    <p>Client testimonials will appear here once they are added.</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Featured Clients -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-4">Companies I've Worked With</h2>
+                <div class="row justify-content-center align-items-center">
+                    {% for client in featured_clients %}
+                    <div class="col-6 col-md-3 mb-4">
+                        {% if client.logo %}
+                        <img src="{{ client.logo.url }}" alt="{{ client.name }}" class="img-fluid client-logo px-3">
+                        {% else %}
+                        <div class="client-name p-3 bg-white rounded shadow-sm text-center">
+                            <h5 class="mb-0">{{ client.name }}</h5>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% empty %}
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="client-name p-3 bg-white rounded shadow-sm text-center">
+                            <h5 class="mb-0">Company A</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="client-name p-3 bg-white rounded shadow-sm text-center">
+                            <h5 class="mb-0">Company B</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="client-name p-3 bg-white rounded shadow-sm text-center">
+                            <h5 class="mb-0">Company C</h5>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3 mb-4">
+                        <div class="client-name p-3 bg-white rounded shadow-sm text-center">
+                            <h5 class="mb-0">Company D</h5>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Ready to work together?</h2>
+        <p class="lead mb-4">Let's discuss your project and create something amazing.</p>
+        <a href="{% url 'portfolio:contact' %}" class="btn btn-light btn-lg">Contact Me</a>
+    </div>
+</section>
+
+<!-- Testimonial Card Styling -->
+<style>
+    .testimonial-card {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .testimonial-quote {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        opacity: 0.1;
+    }
+    
+    .testimonial-content {
+        position: relative;
+        z-index: 1;
+        font-style: italic;
+    }
+    
+    .client-logo {
+        max-height: 80px;
+        width: auto;
+        filter: grayscale(100%);
+        opacity: 0.7;
+        transition: all 0.3s ease;
+    }
+    
+    .client-logo:hover {
+        filter: grayscale(0%);
+        opacity: 1;
+    }
+    
+    .client-name {
+        height: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+    
+    .client-name:hover {
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

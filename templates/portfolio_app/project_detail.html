@@ -1,0 +1,168 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}{{ project.title }}{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'portfolio:home' %}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'portfolio:projects' %}">Projects</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
+                    </ol>
+                </nav>
+                <h1 class="mb-3">{{ project.title }}</h1>
+                <div class="d-flex flex-wrap mb-3">
+                    {% for tag in project.tags.all %}
+                    <a href="{% url 'portfolio:projects' %}?tag={{ tag }}" class="badge bg-primary me-1 mb-1 text-decoration-none">{{ tag }}</a>
+                    {% endfor %}
+                </div>
+                <p class="lead">{{ project.short_description }}</p>
+                <div class="d-flex flex-wrap">
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" class="btn btn-primary me-2 mb-2" target="_blank">
+                        <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                    </a>
+                    {% endif %}
+                    {% if project.github_url %}
+                    <a href="{{ project.github_url }}" class="btn btn-dark me-2 mb-2" target="_blank">
+                        <i class="fab fa-github me-1"></i> View Code
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Content -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Project Image -->
+                {% if project.image %}
+                <div class="mb-5">
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="img-fluid rounded shadow-sm">
+                </div>
+                {% endif %}
+                
+                <!-- Project Description -->
+                <div class="mb-5">
+                    <h2 class="mb-4">Project Overview</h2>
+                    <div class="project-description">
+                        {{ project.description|safe }}
+                    </div>
+                </div>
+                
+                <!-- Project Features -->
+                {% if project.features %}
+                <div class="mb-5">
+                    <h2 class="mb-4">Key Features</h2>
+                    <div class="project-features">
+                        {{ project.features|safe }}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Project Technologies -->
+                {% if project.technologies %}
+                <div class="mb-5">
+                    <h2 class="mb-4">Technologies Used</h2>
+                    <div class="project-technologies">
+                        {{ project.technologies|safe }}
+                    </div>
+                </div>
+                {% endif %}
+                
+                <!-- Project Challenges -->
+                {% if project.challenges %}
+                <div class="mb-5">
+                    <h2 class="mb-4">Challenges & Solutions</h2>
+                    <div class="project-challenges">
+                        {{ project.challenges|safe }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <!-- Project Sidebar -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+                        <h3 class="card-title">Project Details</h3>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span><i class="far fa-calendar-alt me-2 text-primary"></i> Date</span>
+                                <span class="text-muted">{{ project.date_completed|date:"F Y" }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span><i class="fas fa-tasks me-2 text-primary"></i> Status</span>
+                                <span class="badge {% if project.status == 'Completed' %}bg-success{% elif project.status == 'In Progress' %}bg-warning{% else %}bg-info{% endif %}">{{ project.status }}</span>
+                            </li>
+                            {% if project.client %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span><i class="fas fa-user-tie me-2 text-primary"></i> Client</span>
+                                <span class="text-muted">{{ project.client }}</span>
+                            </li>
+                            {% endif %}
+                            {% if project.duration %}
+                            <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <span><i class="far fa-clock me-2 text-primary"></i> Duration</span>
+                                <span class="text-muted">{{ project.duration }}</span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Related Projects -->
+                {% if related_projects %}
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h3 class="card-title">Related Projects</h3>
+                        <div class="list-group list-group-flush">
+                            {% for related in related_projects %}
+                            <a href="{% url 'portfolio:project_detail' related.slug %}" class="list-group-item list-group-item-action px-0">
+                                <div class="d-flex align-items-center">
+                                    {% if related.image %}
+                                    <div class="flex-shrink-0 me-3">
+                                        <img src="{{ related.image.url }}" alt="{{ related.title }}" class="rounded" width="50" height="50" style="object-fit: cover;">
+                                    </div>
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-0">{{ related.title }}</h6>
+                                        <small class="text-muted">{{ related.short_description|truncatechars:60 }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h2 class="mb-3">Interested in working together?</h2>
+                <p class="lead mb-4">Let's discuss your project and see how I can help you achieve your goals.</p>
+                <div class="d-flex justify-content-center">
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-primary me-2">Contact Me</a>
+                    <a href="{% url 'portfolio:projects' %}" class="btn btn-outline-primary">View More Projects</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

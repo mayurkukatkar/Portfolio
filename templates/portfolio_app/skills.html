@@ -1,0 +1,247 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}Skills{% endblock %}
+
+{% block content %}
+<!-- Skills Header -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="mb-3">My Skills</h1>
+                <p class="lead">Here's a comprehensive overview of my technical skills and expertise.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Categories -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 mx-auto">
+                <!-- Programming Languages -->
+                <div class="mb-5">
+                    <h2 class="mb-4"><i class="fas fa-code text-primary me-2"></i> Programming Languages</h2>
+                    <div class="row">
+                        {% for skill in programming_languages %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    {% if skill.icon %}
+                                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon me-2" width="30">
+                                    {% else %}
+                                    <i class="fas fa-code skill-icon me-2 text-primary"></i>
+                                    {% endif %}
+                                    <h5 class="mb-0">{{ skill.name }}</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" 
+                                         aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">{{ skill.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fab fa-python skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">Python</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 90%" 
+                                         aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Proficient in Python for web development, data analysis, and automation.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fab fa-js skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">JavaScript</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 85%" 
+                                         aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Strong knowledge of JavaScript for frontend development and interactive web applications.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Frameworks & Libraries -->
+                <div class="mb-5">
+                    <h2 class="mb-4"><i class="fas fa-layer-group text-primary me-2"></i> Frameworks & Libraries</h2>
+                    <div class="row">
+                        {% for skill in frameworks %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    {% if skill.icon %}
+                                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon me-2" width="30">
+                                    {% else %}
+                                    <i class="fas fa-cubes skill-icon me-2 text-primary"></i>
+                                    {% endif %}
+                                    <h5 class="mb-0">{{ skill.name }}</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" 
+                                         aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">{{ skill.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fab fa-react skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">React</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 80%" 
+                                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Experience building modern, responsive user interfaces with React.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fab fa-django skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">Django</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 85%" 
+                                         aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Proficient in building robust web applications with Django framework.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Tools & Technologies -->
+                <div class="mb-5">
+                    <h2 class="mb-4"><i class="fas fa-tools text-primary me-2"></i> Tools & Technologies</h2>
+                    <div class="row">
+                        {% for skill in tools %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    {% if skill.icon %}
+                                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon me-2" width="30">
+                                    {% else %}
+                                    <i class="fas fa-wrench skill-icon me-2 text-primary"></i>
+                                    {% endif %}
+                                    <h5 class="mb-0">{{ skill.name }}</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" 
+                                         aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">{{ skill.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fab fa-git-alt skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">Git</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 90%" 
+                                         aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Experienced with version control using Git and GitHub.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-database skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">SQL</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 85%" 
+                                         aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Proficient in database design, optimization, and querying with SQL.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+                <!-- Soft Skills -->
+                <div class="mb-5">
+                    <h2 class="mb-4"><i class="fas fa-users text-primary me-2"></i> Soft Skills</h2>
+                    <div class="row">
+                        {% for skill in soft_skills %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm h-100">
+                                <div class="d-flex align-items-center mb-3">
+                                    {% if skill.icon %}
+                                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon me-2" width="30">
+                                    {% else %}
+                                    <i class="fas fa-comment-dots skill-icon me-2 text-primary"></i>
+                                    {% endif %}
+                                    <h5 class="mb-0">{{ skill.name }}</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" 
+                                         aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">{{ skill.description|truncatechars:100 }}</p>
+                            </div>
+                        </div>
+                        {% empty %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-comments skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">Communication</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 95%" 
+                                         aria-valuenow="95" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Excellent verbal and written communication skills, able to explain complex concepts clearly.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="skill-item p-4 bg-white rounded shadow-sm">
+                                <div class="d-flex align-items-center mb-3">
+                                    <i class="fas fa-tasks skill-icon me-2 text-primary"></i>
+                                    <h5 class="mb-0">Project Management</h5>
+                                </div>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" style="width: 85%" 
+                                         aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                                <p class="text-muted mb-0">Experience managing projects from conception to completion, meeting deadlines and requirements.</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Interested in working together?</h2>
+        <p class="lead mb-4">Let's discuss your project and see how my skills can help you achieve your goals.</p>
+        <a href="{% url 'portfolio:contact' %}" class="btn btn-light btn-lg">Contact Me</a>
+    </div>
+</section>
+{% endblock %}

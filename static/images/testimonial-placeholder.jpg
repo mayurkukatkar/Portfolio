@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <circle cx="100" cy="100" r="100" fill="#6c757d"/>
+  <text x="50%" y="50%" font-family="Arial" font-size="16" fill="white" text-anchor="middle" dominant-baseline="middle">Testimonial</text>
+  <circle cx="100" cy="70" r="30" fill="#495057"/>
+  <path d="M100 110 Q 60 110 50 150 L 150 150 Q 140 110 100 110 Z" fill="#495057"/>
+</svg>

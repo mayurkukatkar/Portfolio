@@ -1,0 +1,196 @@
+{% extends 'portfolio_app/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                {% if profile %}
+                <h1 class="display-4 fw-bold">Hi, I'm {{ profile.name }}</h1>
+                <div class="animated-text my-3">
+                    <span class="text-rotate">Developer, Designer, Creator</span>
+                </div>
+                <p class="lead">{{ profile.bio|safe|truncatewords_html:30 }}</p>
+                <div class="mt-4">
+                    <a href="{% url 'portfolio:about' %}" class="btn btn-light me-2">About Me</a>
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-light">Contact Me</a>
+                </div>
+                {% else %}
+                <h1 class="display-4 fw-bold">Welcome to My Portfolio</h1>
+                <div class="animated-text my-3">
+                    <span class="text-rotate">Developer, Designer, Creator</span>
+                </div>
+                <p class="lead">A showcase of my projects, skills, and professional experience.</p>
+                <div class="mt-4">
+                    <a href="{% url 'portfolio:about' %}" class="btn btn-light me-2">About Me</a>
+                    <a href="{% url 'portfolio:contact' %}" class="btn btn-outline-light">Contact Me</a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6 text-center">
+                {% if profile and profile.profile_image %}
+                <img src="{{ profile.profile_image.url }}" alt="{{ profile.name }}" class="img-fluid rounded-circle hero-image">
+                {% else %}
+                <img src="/static/images/profile-placeholder.jpg" alt="Profile" class="img-fluid rounded-circle hero-image">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Projects</h2>
+        <div class="row">
+            {% if projects %}
+            {% for project in projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% else %}
+                    <img src="/static/images/project-placeholder.jpg" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|safe|truncatewords_html:15 }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="{% url 'portfolio:project_detail' project.id %}" class="btn btn-sm btn-outline-primary">View Details</a>
+                                {% if project.github_link %}
+                                <a href="{{ project.github_link }}" target="_blank" class="btn btn-sm btn-outline-secondary">GitHub</a>
+                                {% endif %}
+                                {% if project.live_link %}
+                                <a href="{{ project.live_link }}" target="_blank" class="btn btn-sm btn-outline-success">Live Demo</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p>No projects available yet. Check back soon!</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:projects' %}" class="btn btn-primary">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">My Skills</h2>
+        <div class="row">
+            {% if skills %}
+            {% for skill in skills %}
+            <div class="col-md-4 col-lg-2 mb-4 text-center">
+                <div class="skill-item p-3 bg-white rounded shadow-sm">
+                    {% if skill.icon %}
+                    <img src="{{ skill.icon.url }}" alt="{{ skill.name }}" class="skill-icon mb-3">
+                    {% else %}
+                    <i class="fas fa-code skill-icon mb-3"></i>
+                    {% endif %}
+                    <h5>{{ skill.name }}</h5>
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" style="width: {{ skill.level }}%" aria-valuenow="{{ skill.level }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="col-12 text-center">
+                <p>Skills coming soon!</p>
+            </div>
+            {% endif %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:skills' %}" class="btn btn-primary">View All Skills</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Testimonials</h2>
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% if testimonials %}
+                {% for testimonial in testimonials %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <div class="testimonial-item text-center p-4">
+                        {% if testimonial.image %}
+                        <img src="{{ testimonial.image.url }}" alt="{{ testimonial.name }}" class="rounded-circle mb-3" width="100">
+                        {% else %}
+                        <img src="/static/images/testimonial-placeholder.jpg" alt="{{ testimonial.name }}" class="rounded-circle mb-3" width="100">
+                        {% endif %}
+                        <blockquote class="blockquote">
+                            <p>{{ testimonial.message|safe }}</p>
+                            <footer class="blockquote-footer">{{ testimonial.name }} <cite title="Source Title">{{ testimonial.role }}</cite></footer>
+                        </blockquote>
+                    </div>
+                </div>
+                {% endfor %}
+                {% else %}
+                <div class="carousel-item active">
+                    <div class="testimonial-item text-center p-4">
+                        <blockquote class="blockquote">
+                            <p>Testimonials coming soon!</p>
+                        </blockquote>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'portfolio:testimonials' %}" class="btn btn-primary">View All Testimonials</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA Section -->
+<section class="py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Let's Work Together!</h2>
+        <p class="lead mb-4">Have a project in mind? Let's discuss how I can help you bring your ideas to life.</p>
+        <a href="{% url 'portfolio:contact' %}" class="btn btn-light btn-lg">Get in Touch</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Simple text rotation for the animated text
+    document.addEventListener('DOMContentLoaded', function() {
+        const roles = ['Developer', 'Designer', 'Creator', 'Problem Solver', 'Tech Enthusiast'];
+        const textRotate = document.querySelector('.text-rotate');
+        let currentIndex = 0;
+        
+        setInterval(() => {
+            textRotate.style.opacity = 0;
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % roles.length;
+                textRotate.textContent = roles[currentIndex];
+                textRotate.style.opacity = 1;
+            }, 500);
+        }, 3000);
+    });
+</script>
+{% endblock %}
