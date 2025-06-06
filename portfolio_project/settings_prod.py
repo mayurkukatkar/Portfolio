@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['yourdomain.com', 'www.yourdomain.com', '.herokuapp.com']
+ALLOWED_HOSTS = ['mayurkukatkar.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
