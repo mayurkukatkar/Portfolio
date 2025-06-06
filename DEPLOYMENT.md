@@ -95,7 +95,15 @@ Before deploying, make sure you have:
    - **Environment**: Select "Python 3"
    - **Region**: Choose the region closest to your users
    - **Branch**: Select your main/master branch
-   - **Build Command**: `pip install -r requirements.txt && python manage.py collectstatic --noinput`
+   - **Build Command**: 
+     ```
+     # Install dependencies
+     pip install -r requirements.txt
+     # Run migrations
+     python manage.py migrate
+     # Collect static files
+     python manage.py collectstatic --noinput
+     ```
    - **Start Command**: `gunicorn portfolio_project.wsgi:application`
 
 5. Add environment variables:
@@ -122,11 +130,11 @@ Before deploying, make sure you have:
 
 8. Run migrations and create a superuser:
    - After deployment, go to the "Shell" tab in your web service
-   - Run the following commands:
+   - Run the following command to create a superuser:
      ```
-     python manage.py migrate
      python manage.py createsuperuser
      ```
+   - Note: Migrations will be automatically run during the build process
 
 9. Access your application at the provided Render URL
 

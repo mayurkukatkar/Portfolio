@@ -4,7 +4,13 @@ services:
   - type: web
     name: portfolio-django
     env: python
-    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    buildCommand: |
+      # Install dependencies
+      pip install -r requirements.txt
+      # Run migrations
+      python manage.py migrate
+      # Collect static files
+      python manage.py collectstatic --noinput
     startCommand: gunicorn portfolio_project.wsgi:application
     envVars:
       - key: DJANGO_SETTINGS_MODULE
